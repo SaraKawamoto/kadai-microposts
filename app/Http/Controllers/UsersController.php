@@ -9,7 +9,6 @@ use App\Micropost; // add
 
 class UsersController extends Controller
 {
-   
 
     public function index()
     {
@@ -19,6 +18,7 @@ class UsersController extends Controller
             'users' => $users,
         ]);
     }
+     
      public function show($id)
     {
         $user = User::find($id);
@@ -33,6 +33,7 @@ class UsersController extends Controller
 
         return view('users.show', $data);
     }
+     
      public function followings($id)
     {
         $user = User::find($id);
