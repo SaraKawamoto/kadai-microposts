@@ -22,21 +22,9 @@ public function microposts()
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-
- public function followings()
-    {
-        return $this->belongsToMany(User::class, 'user_follow', 'user_id', 'follow_id')->withTimestamps();
-    }
-
    
- public function followers()
-    {
-        return $this->belongsToMany(User::class, 'user_follow', 'follow_id', 'user_id')->withTimestamps();
-    }
-   
-   
- public function follow($userId)
+
+public function follow($userId)
 {
    
     $exist = $this->is_following($userId);
@@ -52,7 +40,6 @@ public function microposts()
         return true;
     }
 }
-
 
 public function unfollow($userId)
 {
@@ -70,10 +57,23 @@ public function unfollow($userId)
     }
 }
 
-
 public function is_following($userId) {
     return $this->followings()->where('follow_id', $userId)->exists();
 }
+
+public function followings()
+    {
+        return $this->belongsToMany(User::class, 'user_follow', 'user_id', 'follow_id')->withTimestamps();
+    }
+    
+public function followers()
+    {
+        return $this->belongsToMany(User::class, 'user_follow', 'follow_id', 'user_id')->withTimestamps();
+    }
+  
+
+
+
 
 
 public function feed_microposts()
@@ -84,14 +84,9 @@ public function feed_microposts()
     }
 
 
-public function favoriting()
-    {
-        return $this->belongsToMany(User::class, 'favorites', 'user_id', 'micropost_id')->withTimestamps();
-
-}
 
 
-public function favorite($userId)
+public function favorites($userId)
 {
     
     $exist = $this->is_favoriting($userId);
@@ -130,4 +125,11 @@ public function unfavorite($userId)
 public function is_favoriting($userId) {
     return $this->favoritings()->where('micropost_id', $userId)->exists();
 }
+
+public function favoritings()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'user_id', 'micropost_id')->withTimestamps();
+
+}
+
 }
